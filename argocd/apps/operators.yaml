@@ -9,6 +9,11 @@ spec:
     repoURL: https://github.com/sgutierr/demorhcl.git  # Actualizar con tu repositorio
     targetRevision: HEAD
     path: installation/operators
+    directory:
+      include: |
+        operator-group.yaml
+        servicemesh3-operator.yaml
+        kuadrant-operator-subscription.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: openshift-operators
