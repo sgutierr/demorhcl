@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - argocd-app.yaml
+  - apps/operators-namespace.yaml
+  - apps/operators.yaml
+  - apps/tls-secret-app.yaml
+  - apps/kuadrant-config.yaml
+  - apps/echo-api-app.yaml
+

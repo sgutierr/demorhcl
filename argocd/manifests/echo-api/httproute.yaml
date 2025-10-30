@@ -1,0 +1,20 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: echo-api-route
+  namespace: kuadrant-system
+spec:
+  parentRefs:
+  - name: external
+    namespace: kuadrant-system
+  hostnames:
+  - "kuadrant.apps.ocp4.quitala.eu"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: echo-api
+      port: 80
+

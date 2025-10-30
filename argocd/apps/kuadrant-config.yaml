@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kuadrant-config
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sgutierr/demorhcl.git  # Actualizar con tu repositorio
+    targetRevision: HEAD
+    path: installation
+    directory:
+      include: |
+        gateway-quitala.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kuadrant-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  dependsOn:
+    - connectivity-link-operators
+

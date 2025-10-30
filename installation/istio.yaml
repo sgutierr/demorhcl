@@ -1,0 +1,21 @@
+apiVersion: sailoperator.io/v1
+kind: Istio
+metadata:
+  annotations:
+  labels:
+    app.kubernetes.io/instance: istio-system
+  name: default
+spec:
+  namespace: istio-system
+  updateStrategy:
+    type: InPlace
+  values:
+    meshConfig:
+      extensionProviders:
+        - name: otel
+          opentelemetry:
+            port: 4317
+            service: otel-collector.opentelemetrycollector.svc.cluster.local
+    pilot:
+      autoscaleEnabled: false
+  version: v1.26.4   

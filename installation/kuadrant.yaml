@@ -1,0 +1,8 @@
+kind: Kuadrant
+apiVersion: kuadrant.io/v1beta1
+metadata:
+  name: kuadrant-sample
+  namespace: kuadrant-system
+  labels:
+    app.kubernetes.io/instance: kuadrant
+spec: {}

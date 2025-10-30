@@ -1,0 +1,32 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: external
+  namespace: kuadrant-system
+  labels:
+    kuadrant.io/gateway: "true"
+  annotations:
+    networking.istio.io/service-type: NodePort    
+spec:
+    gatewayClassName: istio
+    listeners:
+    - allowedRoutes:
+        namespaces:
+          from: All
+      hostname: "kuadrant.apps.ocp4.quitala.eu"
+      name: api-http
+      port: 80
+      protocol: HTTP
+    - allowedRoutes:
+        namespaces:
+          from: All
+      hostname: "kuadrant.apps.ocp4.quitala.eu"
+      name: api
+      port: 443
+      protocol: HTTPS
+      tls:
+        certificateRefs:
+        - group: ""
+          kind: Secret
+          name: api-external
+        mode: Terminate

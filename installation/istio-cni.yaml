@@ -1,0 +1,10 @@
+apiVersion: sailoperator.io/v1
+kind: IstioCNI
+metadata:
+  name: default
+  labels:
+    app.kubernetes.io/instance: istio-system
+spec:
+  namespace: istio-cni
+  profile: openshift
+  version: v1.26.4

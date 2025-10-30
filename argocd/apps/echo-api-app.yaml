@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: echo-api-demo
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sgutierr/demorhcl.git  # Actualizar con tu repositorio
+    targetRevision: HEAD
+    path: argocd/manifests/echo-api
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kuadrant-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  dependsOn:
+    - kuadrant-config
+

@@ -1,0 +1,154 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: bakery-apps
+spec:
+  gatewayClassName: eg
+  listeners:
+  - name: http
+    hostname: cupcakes.demos.kuadrant.io
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: Selector
+        selector:
+          matchLabels:
+            apps: external
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: prod-web
+  generation: 1
+  namespace: ingress-gateway
+  labels:
+    app.kubernetes.io/instance: ingress-gateway
+    kuadrant.io/lb-attribute-geo-code: GEO-EU
+spec:
+  gatewayClassName: istio
+  listeners:
+    - allowedRoutes:
+        namespaces:
+          from: All
+      hostname: '*.travels.apps.ocp4.quitala.eu'
+      name: api
+      port: 443
+      protocol: HTTPS
+      tls:
+        certificateRefs:
+          - group: ''
+            kind: Secret
+            name: api-tls
+        mode: Terminate            
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: prod-web
+  generation: 1
+  namespace: ingress-gateway
+  labels:
+    app.kubernetes.io/instance: ingress-gateway
+    kuadrant.io/lb-attribute-geo-code: GEO-EU
+spec:
+  gatewayClassName: istio
+  listeners:
+    - allowedRoutes:
+        namespaces:
+          from: All
+      hostname: '*.travels.apps.ocp4.quitala.eu'
+      name: api
+      port: 80
+      protocol: HTTP
+---
+kind: Gateway
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+     name: external
+spec:
+ gatewayClassName: istio
+ listeners:
+   - name: http
+     port: 8080
+     hostname: '*.travels.apps.ocp4.quitala.eu'
+     protocol: HTTP      
+---
+kind: Gateway
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: external
+  namespace: ingress-gateway
+  labels:
+    kuadrant.io/gateway: "true"
+spec:
+  gatewayClassName: istio
+  listeners:
+    - name: http
+      port: 8080
+      hostname: travels.apps.ocp4.quitala.eu
+      protocol: HTTP     
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: external
+  namespace: ingress-gateway
+  labels:
+    kuadrant.io/gateway: "true"
+spec:
+    gatewayClassName: istio
+    listeners:
+    - allowedRoutes:
+        namespaces:
+          from: All 
+      hostname: "api.apps.ocp4.quitala.eu"
+      name: api
+      port: 443
+      protocol: HTTPS
+      tls:
+        certificateRefs:
+        - group: ""
+          kind: Secret
+          name: api-external-tls
+        mode: Terminate      
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: prod-web
+spec:
+  gatewayClassName: example
+  listeners:
+  - protocol: HTTP
+    port: 80
+    name: prod-web-gw
+    allowedRoutes:
+      namespaces:
+        from: Same
+---
+
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: external
+  namespace: kuadrant-system
+  labels:
+    kuadrant.io/gateway: "true"
+spec:
+    gatewayClassName: istio
+    listeners:
+    - allowedRoutes:
+        namespaces:
+          from: All
+      hostname: "kuadrant.apps.ocp4.quitala.eu"
+      name: api
+      port: 443
+      protocol: HTTPS
+      tls:
+        certificateRefs:
+        - group: ""
+          kind: Secret
+          name: api-external
+        mode: Terminate
