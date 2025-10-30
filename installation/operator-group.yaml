@@ -1,9 +1,9 @@
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
-  name: kuadrant
-  namespace: kuadrant-system
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"
+  name: kuadrant-operators
+  namespace: openshift-operators
 spec:
-  upgradeStrategy: Default
+  targetNamespaces:
+  - kuadrant-system
+  - istio-system
