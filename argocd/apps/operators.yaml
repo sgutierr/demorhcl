@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/sgutierr/demorhcl.git  # Actualizar con tu repositorio
     targetRevision: HEAD
-    path: installation
+    path: installation/operators
   destination:
     server: https://kubernetes.default.svc
     namespace: openshift-operators
