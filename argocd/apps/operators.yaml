@@ -12,6 +12,7 @@ spec:
     directory:
       include: |
         servicemesh3-operator.yaml
+        kuadrant-operator-subscription.yaml
         kuadrant.yaml
   destination:
     server: https://kubernetes.default.svc
