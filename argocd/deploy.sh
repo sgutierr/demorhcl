@@ -21,12 +21,12 @@ fi
 echo -e "${GREEN}✓ Conectado al cluster: $(oc whoami --show-server)${NC}"
 
 # Verificar que ArgoCD está instalado
-if ! oc get namespace argocd &> /dev/null; then
-    echo -e "${RED}Error: El namespace 'argocd' no existe. Por favor instala ArgoCD primero.${NC}"
+if ! oc get namespace openshift-gitops &> /dev/null; then
+    echo -e "${RED}Error: El namespace 'openshift-gitops' no existe. Por favor instala ArgoCD primero.${NC}"
     exit 1
 fi
 
-echo -e "${GREEN}✓ Namespace argocd existe${NC}"
+echo -e "${GREEN}✓ Namespace openshift-gitops existe${NC}"
 
 # Pedir confirmación para actualizar el repositorio
 echo -e "\n${YELLOW}IMPORTANTE: Asegúrate de haber actualizado la URL del repositorio en todos los archivos .yaml${NC}"
@@ -53,7 +53,7 @@ echo -e "\n${GREEN}✓ Aplicaciones ArgoCD desplegadas${NC}"
 
 echo -e "\n${YELLOW}Esperando a que las aplicaciones se sincronicen...${NC}"
 echo -e "${YELLOW}Puedes monitorear el progreso en la UI de ArgoCD o con:${NC}"
-echo "  oc get applications -n argocd"
+echo "  oc get applications -n openshift-gitops"
 
 echo -e "\n${GREEN}=== Despliegue iniciado ===${NC}"
 echo -e "${GREEN}El proceso puede tardar varios minutos mientras se instalan los operadores${NC}"

@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: echo-api-demo
-  namespace: argocd
+  namespace: openshift-gitops
 spec:
   project: default
   source:

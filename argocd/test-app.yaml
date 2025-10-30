@@ -1,21 +1,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: operators-system
-  namespace: openshift-gitops
+  name: test-simple-app
+  namespace: argocd
 spec:
   project: default
   source:
-    repoURL: https://github.com/sgutierr/demorhcl.git  # Actualizar con tu repositorio
+    repoURL: https://github.com/sgutierr/demorhcl.git
     targetRevision: HEAD
     path: installation
     directory:
       include: istio-namespace.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: operators
+    namespace: test-namespace
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
 
