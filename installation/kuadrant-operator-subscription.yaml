@@ -9,3 +9,4 @@ spec:
   name: kuadrant-operator
   source: community-operators
   sourceNamespace: openshift-marketplace
+
