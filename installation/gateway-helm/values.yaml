@@ -1,0 +1,12 @@
+# Default values for kuadrant-gateway
+gateway:
+  name: external
+  namespace: kuadrant-system
+  
+hostname: "kuadrant.apps.cluster-54cm4.54cm4.gcp.redhatworkshops.io"
+
+tls:
+  secretName: api-external
+
+serviceType: NodePort
+

@@ -5,5 +5,12 @@ metadata:
   namespace: openshift-operators
 spec:
   targetNamespaces:
-  - kuadrant-system
   - istio-system
+  - istio-cni 
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: kuadrant-operatorgroup
+  namespace: kuadrant-system
+spec: {}

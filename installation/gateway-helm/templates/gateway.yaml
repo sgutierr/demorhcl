@@ -1,0 +1,33 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: {{ .Values.gateway.name }}
+  namespace: {{ .Values.gateway.namespace }}
+  labels:
+    kuadrant.io/gateway: "true"
+  annotations:
+    networking.istio.io/service-type: {{ .Values.serviceType }}
+spec:
+  gatewayClassName: istio
+  listeners:
+  - allowedRoutes:
+      namespaces:
+        from: All
+    hostname: {{ .Values.hostname | quote }}
+    name: api-http
+    port: 80
+    protocol: HTTP
+  - allowedRoutes:
+      namespaces:
+        from: All
+    hostname: {{ .Values.hostname | quote }}
+    name: api
+    port: 443
+    protocol: HTTPS
+    tls:
+      certificateRefs:
+      - group: ""
+        kind: Secret
+        name: {{ .Values.tls.secretName }}
+      mode: Terminate
+

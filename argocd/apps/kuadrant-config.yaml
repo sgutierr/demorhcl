@@ -8,10 +8,13 @@ spec:
   source:
     repoURL: https://github.com/sgutierr/demorhcl.git  # Actualizar con tu repositorio
     targetRevision: HEAD
-    path: installation
-    directory:
-      include: |
-        gateway-quitala.yaml
+    path: installation/gateway-helm
+    helm:
+      valueFiles:
+      - values.yaml
+      parameters:
+      - name: hostname
+        value: "kuadrant.apps.ocp4.quitala.eu"
   destination:
     server: https://kubernetes.default.svc
     namespace: kuadrant-system
