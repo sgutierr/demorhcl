@@ -1,19 +1,21 @@
 apiVersion: argoproj.io/v1
 kind: Application
 metadata:
-  name: tls-secret
+  name: istio-config
   namespace: openshift-gitops
 spec:
   project: default
   source:
-    repoURL: https://github.com/sgutierr/demorhcl.git  # Actualizar con tu repositorio
+    repoURL: https://github.com/sgutierr/demorhcl.git
     targetRevision: HEAD
-    path: argocd/manifests
+    path: installation/config-istio
     directory:
-      include: tls-secret.yaml
+      include: |
+        istio.yaml
+        istio-cni.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: kuadrant-system
+    namespace: istio-system
   syncPolicy:
     automated:
       prune: true
@@ -21,5 +23,4 @@ spec:
     syncOptions:
       - CreateNamespace=true
   dependsOn:
-    - operators-system
-
+    - connectivity-link-operators

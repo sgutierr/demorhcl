@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: install-gateway-api-crds
+  namespace: istio-system
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded
+spec:
+  template:
+    spec:
+      serviceAccountName: argocd-application-controller
+      containers:
+      - name: kubectl
+        image: quay.io/openshift/origin-cli:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          set -e
+          oc get crd gateways.gateway.networking.k8s.io &> /dev/null || \
+          { 
+            echo "Installing Gateway API CRDs..."
+            oc kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.0.0" | oc apply -f -
+            echo "Gateway API CRDs installed successfully"
+          }
+        env:
+        - name: KUBECONFIG
+          value: /var/run/secrets/kubernetes.io/serviceaccount/kubeconfig
+      restartPolicy: Never
+  backoffLimit: 3
+
